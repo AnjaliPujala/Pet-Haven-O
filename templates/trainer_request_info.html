@@ -102,6 +102,7 @@
                     <p><strong>Facilities and Equipment:</strong> {{ trainer.facilities_equipment }}</p>
                     <p><strong>Hours of Operation:</strong> {{ trainer.hours_of_operation }}</p>
                     <p><strong>Location:</strong> {{ trainer.location }}</p>
+                    <p><strong>Service : </strong> {{ service.service_name}}</p>
                     <div class="action-buttons">
                         <form action="{{ url_for('accept_trainer', trainer_id=trainer.id) }}" method="POST">
                             <button type="submit" class="accept-btn">Accept</button>

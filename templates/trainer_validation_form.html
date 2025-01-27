@@ -277,7 +277,15 @@
                 <input type="text" name="session_fees" placeholder="Enter fees" required>
                 <span class="error-message" style="display:none; color: red;"></span>
             </section>
-
+            <section>
+                <label for="service">Select Service</label>
+                <select id="service" name="service" required>
+                    <option value="">--Select Service you want to work on--</option>
+                    {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.service_name }}</option>
+                    {% endfor %}
+                </select>
+            </section>
             <section>
                 <h2>19. Additional Notes</h2>
                 <textarea name="additional_notes" placeholder="Enter additional information"></textarea>

@@ -234,16 +234,17 @@
     
     <!-- Trainer List -->
     <ul>
-      {% for trainer in service.trainers %}
+      {% for trainer in trainers %}
       <li>
         <img
-          src="{{ url_for('static', filename=trainer.profile_pic) }}"
+        src="{{ trainer.profile_pic if trainer.profile_pic else 'https://th.bing.com/th/id/OIP.e1KNYwnuhNwNj7_-98yTRwHaF7?rs=1&pid=ImgDetMain' }}"
           alt="{{ trainer.tname }}"
+          width="100"
         />
         <h3>{{ trainer.name }}</h3>
         <p class="experience">Experience: {{ trainer.experience }}</p>
         <p class="rating">Rating: {{ trainer.rating }}/5</p>
-        <p>{{ trainer.description }}</p>
+        <p>{{ trainer.description if trainer.description else "No description provided" }}</p>
         
         <div class="action-buttons">
           <a href="{{ url_for('edit_trainer', service_id=service.id, trainer_id=trainer.id) }}" class="edit-btn">Edit</a>

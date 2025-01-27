@@ -26,7 +26,8 @@
     <div class="card">
         <h2 id="welcome-heading">Welcome</h2>
         <div class="tabs">
-            <button id="loginButton">LOGIN</button>
+            <button id="loginButton" onclick="window.location.href='{{ url_for('login') }}'">LOGIN</button>
+
             <button class="active" onclick="location.reload()">REGISTER</button>
         </div>
 
@@ -53,7 +54,7 @@
                     <option value="">--Select Role--</option>
                     <option value="customer">Customer</option>
                     <option value="trainer">Trainer</option>
-                    <option value="admin">Admin</option>
+                    
                 </select>
                 <span class="error" id="role-error"></span>
             </div>

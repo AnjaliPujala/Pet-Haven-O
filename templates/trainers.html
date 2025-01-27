@@ -21,14 +21,14 @@
       {% for trainer in trainers %}
       <li>
         <img
-          src="{{ trainer.profile_pic }}"
+        src="{{ trainer.profile_pic if trainer.profile_pic else 'https://th.bing.com/th/id/OIP.e1KNYwnuhNwNj7_-98yTRwHaF7?rs=1&pid=ImgDetMain' }}"
           alt="{{ trainer.tname }}"
           width="100"
         />
         <h3>{{ trainer.name }}</h3>
-        <p>Experience: {{ trainer.experience }}</p>
-        <p>Rating: {{ trainer.rating }}</p>
-        <p>{{ trainer.description }}</p>
+        <p>Experience: {{ trainer.experience_years }}</p>
+        <p>Rating: {{ trainer.rating }}/5</p>
+        <p>{{ trainer.description if trainer.description else "No description provided" }}</p>
         <br />
         <a
           class="button"

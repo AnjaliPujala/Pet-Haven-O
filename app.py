@@ -625,6 +625,7 @@ def submit_trainer_info():
             facilities_equipment=form_data.get('facilities_equipment'),
             hours_of_operation=form_data.get('hours_of_operation'),
             session_fees=form_data.get('session_fees'),
+            service_id=form_data.get('service'),
             additional_notes=form_data.get('additional_notes'),
         )
         db.session.add(trainer_info)
@@ -661,9 +662,14 @@ def submit_trainer_info():
         flash(f'Error submitting trainer information. Please try again. {e}', 'danger')
         return redirect(url_for('trainer_validation_form'))
 
+
+def get_services():
+    services=Service.query.all()
+    return services
 @app.route('/trainer_validation_form')
 def trainer_validation_form():
-    return render_template('trainer_validation_form.html')
+    services = get_services()
+    return render_template('trainer_validation_form.html', services=services)
 
 # @app.route('/trainer_requests')
 # @login_required
@@ -681,8 +687,9 @@ def trainer_validation_form():
 @login_required
 def trainer_request_info(trainer_id):
     trainer = TrainerInfo.query.get(trainer_id)
+    service=Service.query.filter_by(id=trainer.service_id).first()
     if trainer:
-        return render_template("trainer_request_info.html", trainer=trainer)  # Render individual trainer request
+        return render_template("trainer_request_info.html", trainer=trainer,service=service)  # Render individual trainer request
     else:
         flash('Trainer request not found.', 'danger')
         return redirect(url_for('trainer_requests'))
@@ -1733,6 +1740,15 @@ def register4():
     return render_template('register4.html', service=service)
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #team 3#
+#edit trainer
+@app.route('/edit_serivce_trainer')
+def edit_service_trainer():
+    user = User.query.filter_by(user_id=current_user.id).first()  # Ensure user is a single object
+    if user:
+        return render_template('trainer_dashboard.html', user=user)
+    else:
+        # Handle the case when no user is found, e.g., redirect or show an error
+        return redirect(url_for('some_other_route'))
 
 # Routes for user 
 @app.route('/a')
@@ -1752,7 +1768,7 @@ def trainers():
 @app.route('/services/<int:service_id>')
 def trainers_by_service(service_id):
     service = Service.query.get_or_404(service_id)
-    trainers = Trainer.query.filter_by(service_id=service_id).all()
+    trainers = TrainerInfo.query.filter_by(service_id=service_id,status=True).all()
     return render_template('trainers.html', service=service, trainers=trainers)
 
 @app.route('/services/<int:service_id>/appointments', methods=['GET'])
@@ -2096,7 +2112,8 @@ def admin_services():
 @app.route('/admin_services/<int:service_id>/admin_trainer')
 def admin_trainer(service_id):
     service = Service.query.get_or_404(service_id)
-    return render_template('admin_trainer.html', service=service)
+    trainers=TrainerInfo.query.filter_by(service_id=service_id).all()
+    return render_template('admin_trainer.html', service=service,trainers=trainers)
 
 @app.route('/admin_services/<int:service_id>/add_trainer', methods=['GET', 'POST'])
 def add_trainer(service_id):

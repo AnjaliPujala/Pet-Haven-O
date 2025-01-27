@@ -67,7 +67,11 @@ class TrainerInfo(db.Model):
     additional_notes = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.Boolean, default=False)  # Added status field
+    service_id = db.Column(db.Integer, db.ForeignKey('service.id'), nullable=False)
     # Relationship, with a modified backref name
+    rating = db.Column(db.Float, default=3)
+    description = db.Column(db.Text, nullable=False,default="")
+    profile_pic = db.Column(db.String(200), nullable=False,default="")
     user = db.relationship('User', backref='trainer_profiles', lazy=True)  # Changed backref to 'trainer_profiles'
 
     def __repr__(self):
@@ -84,7 +88,7 @@ class TrainerInfo(db.Model):
         else:
             self._certification_date = value
 
-
+TrainerInfo()
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(255), nullable=False)

@@ -13,6 +13,10 @@
             <a class="navbar-brand" href="#">Trainer Dashboard</a>
             <div class="d-flex">
                 <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                {% if user and user.verified %}
+                    <a href="#" class="btn btn-primary">Edit Details</a>
+                {% endif %}
+
             </div>
         </div>
     </nav>
